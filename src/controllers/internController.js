@@ -73,7 +73,7 @@ const createIntern = async function (req, res) {
                 
                 data.collegeId = findCollege._id
               
-            if (!isValidObjectId(findCollege._id)) {
+            if (!isValidObjectid(data.collegeId)) {
                 return res.status(400).send({
                     status: false,
                     msg: "not a valid collegeId"

@@ -60,6 +60,10 @@ const createCollege = async function (req, res) {
                     msg: "logoLink is required"
                 })
             }
+            const logoLinkValidator = (/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g).test(logoLink)
+            if (!logoLinkValidator) {
+                return res.status(400).send({ status: false, message: "Please enter a valid logo link " })
+            }
 
             let savedData = await collegeModel.create(data)
             res.status(201).send({ status: true,msg:"college saved successfully", data: savedData })
@@ -113,7 +117,14 @@ const getCollegeDetails = async function (req, res) {
             return res.status(200).send({ status: true, data: Data });
         }
         else {
-            res.status(400).send({ status: false, msg: "Already applied" })
+            let Data = {
+                name: name1,
+                fullName: fullName1,
+                logoLink: logoLink1,
+                interests: []
+            }
+
+            res.status(400).send({ status: false, msg: "no interest found",data: Data })
         }
     }
     catch (err) {
